@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/m_menu_add_rule"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="@string/m_menu_add_rule"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/m_menu_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/m_menu_settings"
+        app:showAsAction="ifRoom"
+        />
+    <item android:id="@+id/m_menu_about"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:title="@string/m_menu_about"
+        app:showAsAction="ifRoom"
+        />
+</menu>
