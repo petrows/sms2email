@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
 import ws.petro.sms2email.R
+import ws.petro.sms2email.filter.RuleDatabase
 
 class MainFragment : Fragment() {
 
