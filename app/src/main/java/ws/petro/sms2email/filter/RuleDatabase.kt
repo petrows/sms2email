@@ -1,5 +1,9 @@
 package ws.petro.sms2email.filter
 
+/*
+    Based on example: https://github.com/googlecodelabs/android-room-with-a-view/tree/kotlin
+ */
+
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
@@ -9,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Rule::class], version = 1)
+@Database(entities = [Rule::class], version = 2)
 abstract class RuleDatabase : RoomDatabase() {
     abstract fun ruleDao(): RuleDao
 
@@ -40,6 +44,24 @@ abstract class RuleDatabase : RoomDatabase() {
             }
         }
 
+        fun getDatabaseSync(
+            context: Context
+        ): RuleDatabase {
+            // if the INSTANCE is not null, then return it,
+            // if it is, then create the database
+            if (INSTANCE != null) { return INSTANCE as RuleDatabase }
+
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    RuleDatabase::class.java,
+                    "rule_database"
+                )
+                    .build()
+                INSTANCE = instance
+
+                return instance
+        }
+
         private class WordDatabaseCallback(
             private val scope: CoroutineScope
         ) : RoomDatabase.Callback() {
@@ -68,10 +90,10 @@ abstract class RuleDatabase : RoomDatabase() {
             // Not needed if you only populate on creation.
             ruleDao.deleteAll()
 
-            var rule = Rule(1, "Hello", 1, -1, "test@example.com")
-            ruleDao.save(rule)
-            rule = Rule(2, "World!", 1, -1, "test@example.com")
-            ruleDao.save(rule)
+            var rule = Rule("Hello", 1, -1, "test@example.com")
+            ruleDao.insert(rule)
+            rule = Rule("World!", 2, -1, "test@example.com")
+            ruleDao.insert(rule)
         }
     }
 }

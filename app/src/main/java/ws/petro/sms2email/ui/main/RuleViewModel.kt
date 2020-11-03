@@ -22,7 +22,7 @@ class RuleViewModel(application: Application) : AndroidViewModel(application) {
     init {
         val ruleDao = RuleDatabase.getDatabase(application, viewModelScope).ruleDao()
         repository = RuleRepository(ruleDao)
-        allRules = repository.allWords
+        allRules = repository.allRules
     }
 
     /**
