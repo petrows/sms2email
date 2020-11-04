@@ -6,10 +6,10 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import ws.petro.sms2email.await
 
-class Matcher (context: Context) : LifecycleOwner {
+class Matcher (context: Context) {
     val context = context
     private val TAG: String = "Matcher"
-    suspend fun match(messageFrom: String, messageText: String): Boolean {
+    suspend fun match(messageFrom: String, messageText: String, simId: Int): Boolean {
         // Init database and read read all rules
 
         val ruleDao = RuleDatabase.getDatabaseSync(context).ruleDao()
@@ -17,17 +17,16 @@ class Matcher (context: Context) : LifecycleOwner {
 
         val liveData = ruleDao.getAll()
 
-//        GlobalScope.launch(Dispatchers.Main) {
-//            Log.d(TAG, "Observe begin")
-//            liveData.observeForever {
-//                Log.d(TAG, "Reading async done, data size is ${it.size}")
-//            }
-//            Log.d(TAG, "Observe end")
-//        }.join()
-
         liveData.await()
 
-        val data = liveData.value!!
+        val data = liveData.value
+
+        if (data == null) {
+            Log.e(TAG, "Error getting rules list for filtering")
+            return false
+        }
+
+        
 
         Log.d(TAG, "Reading rules")
 
@@ -37,24 +36,6 @@ class Matcher (context: Context) : LifecycleOwner {
 
         Log.d(TAG, "Finish")
 
-//        val nameObserver = Observer<List<Rule>> { items ->
-//            for (item in items) {
-//                Log.d(TAG, "Found rule: ${item.title}")
-//            }
-//        }
-
-//        lifecycleScope.launch {
-//            withContext(Dispatchers.Main) {
-//                data.observe(this, nameObserver)
-//            }
-//        }
-
-
-
         return data.isNotEmpty() // todo
-    }
-
-    override fun getLifecycle(): Lifecycle {
-        TODO("Not yet implemented")
     }
 }
