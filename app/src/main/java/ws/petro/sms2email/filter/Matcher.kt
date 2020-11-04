@@ -13,6 +13,8 @@ class Matcher (context: Context) {
     suspend fun match(messageFrom: String, messageText: String, simId: Int): List<Rule> {
         // Init database and read read all rules
 
+        Log.d(TAG, "Matching: $messageFrom, $messageText, $simId")
+
         val ruleDao = RuleDatabase.getDatabaseSync(context).ruleDao()
         val repository = RuleRepository(ruleDao)
 
