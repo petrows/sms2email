@@ -2,6 +2,7 @@ package ws.petro.sms2email
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.runBlocking
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,6 +19,8 @@ class MatcherTest {
 
         val matcher = Matcher(appContext)
 
-        assertTrue(matcher.match("John Doe", "Hello world"))
+        runBlocking {
+            assertTrue(matcher.match("John Doe", "Hello world"))
+        }
     }
 }
