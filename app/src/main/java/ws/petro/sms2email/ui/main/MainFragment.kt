@@ -1,17 +1,13 @@
 package ws.petro.sms2email.ui.main
 
 import android.os.Bundle
-import android.text.Layout
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import ws.petro.sms2email.R
-import ws.petro.sms2email.filter.RuleDatabase
 
 class MainFragment : Fragment() {
 
@@ -34,8 +30,10 @@ class MainFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         layout = inflater.inflate(R.layout.main_fragment, container, false)
 
         recyclerView = layout.findViewById<RecyclerView>(R.id.rules_list_view)
@@ -58,6 +56,25 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == R.id.m_menu_add_rule) {
+            val nextFrag = RuleEditFragment(null)
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.container, nextFrag, "RuleEditFragment")
+                .addToBackStack(null)
+                .commit()
+        }
+        if (id == R.id.m_menu_settings) {
+            val nextFrag = SettingsFragment()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.container, nextFrag, "SettingsFragment")
+                .addToBackStack(null)
+                .commit()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }
