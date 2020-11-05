@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ws.petro.sms2email.R
+import ws.petro.sms2email.SimInfo
 import ws.petro.sms2email.filter.Rule
 
 class MainFragment : Fragment() {
@@ -37,6 +38,10 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         layout = inflater.inflate(R.layout.main_fragment, container, false)
+
+        val info: SimInfo = SimInfo()
+
+        info.getSimInfo(requireActivity())
 
         recyclerView = layout.findViewById<RecyclerView>(R.id.rules_list_view)
 
