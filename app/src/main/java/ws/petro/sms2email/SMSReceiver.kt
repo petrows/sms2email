@@ -40,7 +40,7 @@ class SMSReceiver : BroadcastReceiver() {
             val smsContent = currentMessage.getDisplayMessageBody()
             Log.d("receiver", "Message: " + smsContent) // Always max 67 characters!
 
-            GlobalScope.launch(Dispatchers.IO) {
+            GlobalScope.launch(Dispatchers.Main) {
                 matcher.match(senderNum, smsContent, sub) { rules ->
                     if (rules.isEmpty()) {
                         // Nothing to do
