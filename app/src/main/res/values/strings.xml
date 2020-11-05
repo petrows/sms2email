@@ -12,6 +12,7 @@
     <string name="editor_new">New rule</string>
     <string name="editor_edit">Edit rule</string>
     <string name="promt_rule_title">Rule title</string>
+    <string name="promt_rule_to_email">Recipient email</string>
     <string name="promt_rule_sim">SIM</string>
     <string name="promt_rule_sim_all">Any</string>
 

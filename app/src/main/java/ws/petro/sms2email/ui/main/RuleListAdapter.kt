@@ -10,16 +10,20 @@ import androidx.recyclerview.widget.RecyclerView
 import ws.petro.sms2email.R
 import ws.petro.sms2email.filter.Rule
 
-class RuleListAdapter(context: Context, onClick: (rule: Rule) -> Unit) : RecyclerView.Adapter<RuleListAdapter.WordViewHolder>() {
+class RuleListAdapter(context: Context) : RecyclerView.Adapter<RuleListAdapter.WordViewHolder>() {
 
     private val TAG: String = "RuleListAdapter"
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var rules = emptyList<Rule>() // Cached copy of list
-    private var onClick = onClick
+    private lateinit var onClick: (rule: Rule) -> Unit
 
     inner class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ruleItemTitle: TextView = itemView.findViewById(R.id.rule_title)
         val ruleItemDescription: TextView = itemView.findViewById(R.id.rule_description)
+    }
+
+    fun setOnClick(onClick: (rule: Rule) -> Unit) {
+        this.onClick = onClick
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
