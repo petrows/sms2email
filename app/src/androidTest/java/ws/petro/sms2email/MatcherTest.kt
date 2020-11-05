@@ -1,5 +1,6 @@
 package ws.petro.sms2email
 
+import androidx.test.espresso.base.MainThread
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.Dispatchers
@@ -22,37 +23,36 @@ class MatcherTest {
     val matcher = Matcher(appContext)
 
     @Test
+    @MainThread
     fun matchRuleOrder() {
-        InstrumentationRegistry.getInstrumentation().runOnMainSync {
-            GlobalScope.launch(Dispatchers.IO) {
-                ruleDao.deleteAll()
-                ruleDao.insert(Rule("test-1", 3, -1, "test1@example.com"))
-                ruleDao.insert(Rule("test-2", 2, -1, "test2@example.com"))
-                ruleDao.insert(Rule("test-3", 1, -1, "test3@example.com"))
+        GlobalScope.launch {
+            ruleDao.deleteAll()
+            ruleDao.insert(Rule("test-1", 3, -1, "test1@example.com"))
+            ruleDao.insert(Rule("test-2", 2, -1, "test2@example.com"))
+            ruleDao.insert(Rule("test-3", 1, -1, "test3@example.com"))
 
-                matcher.match("John Doe", "Hello world", 1) { rules ->
-                    assertTrue(rules.isNotEmpty())
-                    assertEquals(rules[0].title, "test-3")
-                }
+            matcher.match("John Doe", "Hello world", 1) { rules ->
+                assertTrue(rules.isNotEmpty())
+                assertEquals(rules[0].title, "test-3")
             }
         }
     }
 
     @Test
+    @MainThread
     fun matchRuleSim() {
-        InstrumentationRegistry.getInstrumentation().runOnMainSync {
-            GlobalScope.launch(Dispatchers.IO) {
-                ruleDao.deleteAll()
-                ruleDao.insert(Rule("test-1", 3, 3, "test1@example.com"))
-                ruleDao.insert(Rule("test-2", 2, 2, "test2@example.com"))
-                ruleDao.insert(Rule("test-3", 1, -1, "test3@example.com"))
+        GlobalScope.launch {
+            ruleDao.deleteAll()
+            ruleDao.insert(Rule("test-1", 3, 3, "test1@example.com"))
+            ruleDao.insert(Rule("test-2", 2, 2, "test2@example.com"))
+            ruleDao.insert(Rule("test-3", 1, -1, "test3@example.com"))
 
-                matcher.match("John Doe", "Hello world", 2) { rules ->
-                    assertFalse(rules.isNotEmpty())
-                    assertEquals(rules[0].title, "test-3")
-                    assertEquals(rules[1].title, "test-2")
-                }
+            matcher.match("John Doe", "Hello world", 2) { rules ->
+                assertFalse(rules.isNotEmpty())
+                assertEquals(rules[0].title, "test-3")
+                assertEquals(rules[1].title, "test-2")
             }
         }
+
     }
 }
