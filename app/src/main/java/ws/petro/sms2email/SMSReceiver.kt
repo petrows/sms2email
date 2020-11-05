@@ -40,21 +40,21 @@ class SMSReceiver : BroadcastReceiver() {
             val smsContent = currentMessage.getDisplayMessageBody()
             Log.d("receiver", "Message: " + smsContent) // Always max 67 characters!
 
-            GlobalScope.launch(Dispatchers.IO) {
-                val rules = matcher.match(senderNum, smsContent, sub)
+            GlobalScope.launch(Dispatchers.Main) {
+                matcher.match(senderNum, smsContent, sub) { rules ->
+                    if (rules.isEmpty()) {
+                        // Nothing to do
+                        return@match
+                    }
 
-                if (rules.isEmpty()) {
-                    // Nothing to do
-                    return@launch
-                }
-
-                // Process rules and send emails
-                var emails : ArrayList<String> = ArrayList<String>()
-                for (rule in rules) {
-                    emails.add(rule.toEmail)
-                }
-                for (email in emails.distinct()) {
-                    Log.d(TAG, "Send message to: $email")
+                    // Process rules and send emails
+                    var emails : ArrayList<String> = ArrayList<String>()
+                    for (rule in rules) {
+                        emails.add(rule.toEmail)
+                    }
+                    for (email in emails.distinct()) {
+                        Log.d(TAG, "Send message to: $email")
+                    }
                 }
             }
         }
