@@ -1,34 +1,32 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="@string/smtp_header">
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+            app:key="smtp_host"
+            app:title="@string/smtp_host"
             app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
+        <EditTextPreference
+            app:key="smtp_port"
+            app:title="@string/smtp_port"
             app:useSimpleSummaryProvider="true" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/sync_header">
-
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
+            app:key="smtp_auth"
+            app:title="@string/smtp_auth" />
 
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+        <EditTextPreference
+            app:key="smtp_user"
+            app:title="@string/smtp_user"
+            app:dependency="smtp_auth"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="smtp_password"
+            app:title="@string/smtp_password"
+            app:dependency="smtp_auth"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 

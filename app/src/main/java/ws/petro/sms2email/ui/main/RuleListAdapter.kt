@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ws.petro.sms2email.R
 import ws.petro.sms2email.filter.Rule
 
-class RuleListAdapter(context: Context) : RecyclerView.Adapter<RuleListAdapter.WordViewHolder>() {
+class RuleListAdapter(context: Context, onClick: (rule: Rule) -> Unit) : RecyclerView.Adapter<RuleListAdapter.WordViewHolder>() {
 
     private val TAG: String = "RuleListAdapter"
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var rules = emptyList<Rule>() // Cached copy of list
+    private var onClick = onClick
 
     inner class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ruleItemTitle: TextView = itemView.findViewById(R.id.rule_title)
@@ -30,6 +31,11 @@ class RuleListAdapter(context: Context) : RecyclerView.Adapter<RuleListAdapter.W
         val current = rules[position]
         holder.ruleItemTitle.text = current.title
         holder.ruleItemDescription.text = current.toEmail
+        // From https://medium.com/@aayushpuranik/recycler-view-using-kotlin-with-click-listener-46e7884eaf59
+        holder.itemView.setOnClickListener {
+            Log.d(TAG, "Item clicked: ${current.id} (${current.title})")
+            onClick(current)
+        }
     }
 
     internal fun setRules(rules: List<Rule>) {

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ws.petro.sms2email.R
+import ws.petro.sms2email.filter.Rule
 
 class MainFragment : Fragment() {
 
@@ -39,7 +40,7 @@ class MainFragment : Fragment() {
         recyclerView = layout.findViewById<RecyclerView>(R.id.rules_list_view)
 
         context?.let { context_itr ->
-            val adapter =  RuleListAdapter(context_itr)
+            val adapter =  RuleListAdapter(context_itr) { rule -> onItemClicked(rule) }
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(context_itr)
             viewModel.allRules.observe(
@@ -56,6 +57,14 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+    }
+
+    fun onItemClicked(rule: Rule) {
+        val nextFrag = RuleEditFragment(rule)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.container, nextFrag, "RuleEditFragment")
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
