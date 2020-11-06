@@ -10,7 +10,7 @@ import java.lang.RuntimeException
 class Matcher (context: Context) {
     val context = context
     private val TAG: String = "Matcher"
-    suspend fun match(messageFrom: String, messageText: String, simId: Int, rulesBlock: (rules: List<Rule>) -> Unit) {
+    suspend fun match(messageFrom: String, messageText: String, simId: Int): List<Rule> {
         // Init database and read read all rules
 
         Log.d(TAG, "Matching: $messageFrom, $messageText, $simId")
@@ -19,38 +19,34 @@ class Matcher (context: Context) {
         val repository = RuleRepository(ruleDao)
 
         val liveData = ruleDao.getAll()
+        var matchedRules : ArrayList<Rule> = ArrayList<Rule>()
 
-        liveData.observeForever {
-            var matchedRules : ArrayList<Rule> = ArrayList<Rule>()
+        liveData.await()
 
-            //liveData.await()
-            //val data = liveData.value
+        val data = liveData.value
 
-            val data = it
-
-            if (data == null) {
-                Log.e(TAG, "Error getting rules list for filtering")
-                throw RuntimeException("Error getting rules list for filtering")
-            }
-
-            Log.d(TAG, "Reading rules")
-
-            for (rule in data) {
-                Log.d(TAG, "Matching rule: ${rule.title}")
-
-                // Sim?
-                if (rule.sim != -1 && rule.sim != simId) {
-                    // Mismatch
-                    continue
-                }
-
-                // Match?
-                matchedRules.add(rule)
-            }
-
-            Log.d(TAG, "Matched ${matchedRules.size} rules")
-
-            rulesBlock(matchedRules)
+        if (data == null) {
+            Log.e(TAG, "Error getting rules list for filtering")
+            throw RuntimeException("Error getting rules list for filtering")
         }
+
+        Log.d(TAG, "Reading rules")
+
+        for (rule in data) {
+            Log.d(TAG, "Matching rule: ${rule.title}")
+
+            // Sim?
+            if (rule.sim != -1 && rule.sim != simId) {
+                // Mismatch
+                continue
+            }
+
+            // Match?
+            matchedRules.add(rule)
+        }
+
+        Log.d(TAG, "Matched ${matchedRules.size} rules")
+
+        return matchedRules
     }
 }
