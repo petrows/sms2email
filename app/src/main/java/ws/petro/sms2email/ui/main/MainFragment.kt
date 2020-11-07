@@ -1,7 +1,12 @@
 package ws.petro.sms2email.ui.main
 
+import android.Manifest
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -12,7 +17,7 @@ import ws.petro.sms2email.SimInfo
 import ws.petro.sms2email.filter.Rule
 
 class MainFragment : Fragment() {
-
+    private val TAG: String = "MainFragment"
     companion object {
         fun newInstance() = MainFragment()
     }
@@ -94,7 +99,31 @@ class MainFragment : Fragment() {
     }
 
     private fun startupCheckPermissions() {
+        startupCheckPersmission(Manifest.permission.READ_PHONE_STATE)
+    }
 
+    private fun startupCheckPersmission(permission: String) {
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                permission
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(TAG, "No read SIM access granted, requesting")
+
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(permission), 0
+            )
+            return null
+        }
     }
 
 }
