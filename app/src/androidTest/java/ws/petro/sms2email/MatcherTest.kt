@@ -19,32 +19,29 @@ class MatcherTest {
     val matcher = Matcher(appContext)
 
     @Test
-    fun matchRuleOrder() {
-        runBlocking {
-            ruleDao.deleteAll()
-            ruleDao.insert(Rule("test-1", 3, -1, "test1@example.com"))
-            ruleDao.insert(Rule("test-2", 2, -1, "test2@example.com"))
-            ruleDao.insert(Rule("test-3", 1, -1, "test3@example.com"))
-            val matches = matcher.match("John Doe", "Hello world", 1)
+    fun matchRuleOrder() = runBlocking {
+        ruleDao.deleteAll()
+        ruleDao.insert(Rule("test-1", 3, -1, "test1@example.com"))
+        ruleDao.insert(Rule("test-2", 2, -1, "test2@example.com"))
+        ruleDao.insert(Rule("test-3", 1, -1, "test3@example.com"))
+        val matches = matcher.match("John Doe", "Hello world", 1)
 
-            assertTrue(matches.isNotEmpty())
-            assertEquals(matches[0].title, "test-3")
-        }
+        assertTrue(matches.isNotEmpty())
+        assertEquals(matches[0].title, "test-3")
     }
 
     @Test
-    fun matchRuleSim() {
-        runBlocking {
-            ruleDao.deleteAll()
-            ruleDao.insert(Rule("test-1", 3, 3, "test1@example.com"))
-            ruleDao.insert(Rule("test-2", 2, 2, "test2@example.com"))
-            ruleDao.insert(Rule("test-3", 1, -1, "test3@example.com"))
+    fun matchRuleSim() = runBlocking {
+        ruleDao.deleteAll()
+        ruleDao.insert(Rule("test-1", 3, 3, "test1@example.com"))
+        ruleDao.insert(Rule("test-2", 2, 2, "test2@example.com"))
+        ruleDao.insert(Rule("test-3", 1, -1, "test3@example.com"))
 
-            val matches = matcher.match("John Doe", "Hello world", 2)
+        val matches = matcher.match("John Doe", "Hello world", 2)
 
-            assertTrue(matches.isNotEmpty())
-            assertEquals(matches[0].title, "test-3")
-            assertEquals(matches[1].title, "test-2")
-        }
+        assertTrue(matches.isNotEmpty())
+        assertEquals(matches[0].title, "test-3")
+        assertEquals(matches[1].title, "test-2")
     }
+
 }
