@@ -1,12 +1,13 @@
 package ws.petro.sms2email.ui.main
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -30,7 +31,6 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        startupCheckPermissions()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -44,9 +44,8 @@ class MainFragment : Fragment() {
     ): View {
         layout = inflater.inflate(R.layout.main_fragment, container, false)
 
-        val info: SimInfo = SimInfo()
-
-        info.getSimInfo(requireActivity())
+        // Check and request needed permissions
+        startupCheckPermissions()
 
         recyclerView = layout.findViewById<RecyclerView>(R.id.rules_list_view)
 
@@ -58,7 +57,7 @@ class MainFragment : Fragment() {
             viewModel.allRules.observe(
                 viewLifecycleOwner,
                 Observer { rules ->
-                    // Update the cached copy of the words in the adapter.
+                    // Update the cached copy of the data in the adapter.
                     rules?.let { adapter.setRules(it) }
                 }
             )
@@ -98,31 +97,44 @@ class MainFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * This function checks required perms and request them from user
+     */
     private fun startupCheckPermissions() {
-        startupCheckPersmission(Manifest.permission.READ_PHONE_STATE)
+        val permsToCheck = arrayOf(Manifest.permission.READ_PHONE_STATE)
+        val permsToRequest = ArrayList<String>()
+
+        for (perm in permsToCheck) {
+            if (ActivityCompat.checkSelfPermission(
+                    requireActivity(),
+                    perm
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.d(TAG, "Permission $perm -> OK")
+            } else {
+                Log.d(TAG, "Permission $perm -> Denied, need to request")
+                permsToRequest.add(perm)
+            }
+        }
+
+        if (permsToRequest.size > 0) {
+            Log.d(TAG, "Requesting: $permsToRequest")
+
+            requestPermissions(
+                arrayOf(Manifest.permission.READ_PHONE_STATE), 0
+            )
+        }
     }
 
-    private fun startupCheckPersmission(permission: String) {
-        if (ActivityCompat.checkSelfPermission(
-                requireActivity(),
-                permission
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            Log.d(TAG, "No read SIM access granted, requesting")
-
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(permission), 0
-            )
-            return null
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissions.forEachIndexed { index, perm ->
+            val granted = (grantResults[index] == PackageManager.PERMISSION_GRANTED)
+            Log.d(TAG, "Perms result: $perm -> $granted")
         }
     }
 

@@ -7,6 +7,7 @@
 
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="any_sim">Any SIM</string>
 
     <!-- Editor Titles -->
     <string name="editor_new">New rule</string>

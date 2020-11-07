@@ -13,7 +13,7 @@ data class Rule(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "prio") val prio: Int,
-    @ColumnInfo(name = "sim") val sim: Int,
+    @ColumnInfo(name = "sim") var sim: Int,
     @ColumnInfo(name = "email_to") var emailTo: String,
 ) {
     constructor(title: String, prio: Int, sim: Int, toEmail: String) : this(0, title, prio, sim, toEmail)
