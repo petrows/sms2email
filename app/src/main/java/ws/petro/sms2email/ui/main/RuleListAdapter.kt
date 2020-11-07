@@ -34,7 +34,7 @@ class RuleListAdapter(context: Context) : RecyclerView.Adapter<RuleListAdapter.W
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         val current = rules[position]
         holder.ruleItemTitle.text = current.title
-        holder.ruleItemDescription.text = current.toEmail
+        holder.ruleItemDescription.text = current.emailTo
         // From https://medium.com/@aayushpuranik/recycler-view-using-kotlin-with-click-listener-46e7884eaf59
         holder.itemView.setOnClickListener {
             Log.d(TAG, "Item clicked: ${current.id} (${current.title})")

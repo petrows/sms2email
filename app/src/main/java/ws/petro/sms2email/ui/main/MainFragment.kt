@@ -24,6 +24,7 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        startupCheckPermissions()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -85,6 +86,10 @@ class MainFragment : Fragment() {
                 .commit()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun startupCheckPermissions() {
+
     }
 
 }

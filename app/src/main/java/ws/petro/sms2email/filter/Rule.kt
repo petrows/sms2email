@@ -14,7 +14,7 @@ data class Rule(
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "prio") val prio: Int,
     @ColumnInfo(name = "sim") val sim: Int,
-    @ColumnInfo(name = "to_email") var toEmail: String,
+    @ColumnInfo(name = "email_to") var emailTo: String,
 ) {
     constructor(title: String, prio: Int, sim: Int, toEmail: String) : this(0, title, prio, sim, toEmail)
 }

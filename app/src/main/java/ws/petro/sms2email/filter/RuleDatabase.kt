@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Rule::class], version = 2)
+@Database(entities = [Rule::class], version = 3)
 abstract class RuleDatabase : RoomDatabase() {
     abstract fun ruleDao(): RuleDao
 

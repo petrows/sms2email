@@ -51,7 +51,7 @@ class SMSReceiver : BroadcastReceiver() {
                 // Process rules and send emails
                 var emails : ArrayList<String> = ArrayList<String>()
                 for (rule in rules) {
-                    emails.add(rule.toEmail)
+                    emails.add(rule.emailTo)
                 }
                 for (email in emails.distinct()) {
                     Log.d(TAG, "Send message to: $email")
