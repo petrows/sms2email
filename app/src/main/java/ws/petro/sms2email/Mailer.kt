@@ -2,7 +2,7 @@ package ws.petro.sms2email
 
 import com.github.tntkhang.gmailsenderlibrary.GmailListener
 import com.github.tntkhang.gmailsenderlibrary.JSSEProvider
-import com.github.tntkhang.gmailsenderlibrary.SendMailTask
+// import com.github.tntkhang.gmailsenderlibrary.SendMailTask
 import java.security.Security
 import java.util.*
 import javax.mail.Authenticator
