@@ -28,11 +28,11 @@ class GMailSenderAuthenticator internal constructor(
 
     @Synchronized
     fun sendMail(subject: String?, body: String?, sender: String?, recipients: String?) {
-        val sendMailTask = SendMailTask(
-            subject, body, sender, recipients,
-            listener, session
-        )
-        sendMailTask.execute()
+//        val sendMailTask = SendMailTask(
+//            subject, body, sender, recipients,
+//            listener, session
+//        )
+//        sendMailTask.execute()
     }
 
     init {
