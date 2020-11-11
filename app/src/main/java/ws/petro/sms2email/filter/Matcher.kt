@@ -36,7 +36,7 @@ class Matcher (context: Context) {
             Log.d(TAG, "Matching rule: ${rule.title}")
 
             // Sim?
-            if (rule.sim != -1 && rule.sim != simId) {
+            if (rule.sim != -1 && simId >= 0 && rule.sim != simId) {
                 // Mismatch
                 continue
             }

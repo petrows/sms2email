@@ -22,6 +22,9 @@ interface RuleDao {
     @Query("SELECT * FROM rule ORDER BY prio ASC")
     fun getAll(): LiveData<List<Rule>>
 
+    @Query("SELECT id FROM rule ORDER BY id DESC")
+    fun getLastId(): Int
+
     @Query("SELECT * FROM rule WHERE id = :ruleId")
     fun load(ruleId: Int): LiveData<Rule>
 

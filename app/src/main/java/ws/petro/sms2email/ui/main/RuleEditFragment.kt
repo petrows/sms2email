@@ -17,7 +17,6 @@ import ws.petro.sms2email.SimInfo
 import ws.petro.sms2email.filter.Rule
 import ws.petro.sms2email.filter.RuleDatabase
 
-
 class RuleEditFragment(rule: Rule?) : Fragment() {
 
     var rule : Rule? = rule
@@ -65,6 +64,7 @@ class RuleEditFragment(rule: Rule?) : Fragment() {
             layout.findViewById<EditText>(R.id.edit_to_email).setText(rule!!.emailTo)
         } else {
             layout.findViewById<TextView>(R.id.editor_title).setText(R.string.editor_new)
+            layout.findViewById<EditText>(R.id.edit_title).setText(R.string.editor_new)
         }
 
         var simSelector = ArrayList<String>()

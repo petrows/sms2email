@@ -12,6 +12,8 @@
     <!-- Editor Titles -->
     <string name="editor_new">New rule</string>
     <string name="editor_edit">Edit rule</string>
+    <string name="editor_sim_filter">SIM filter</string>
+    <string name="editor_recipient">Redirect target</string>
     <string name="promt_rule_title">Rule title</string>
     <string name="promt_rule_to_email">Recipient email</string>
     <string name="promt_rule_sim">SIM</string>

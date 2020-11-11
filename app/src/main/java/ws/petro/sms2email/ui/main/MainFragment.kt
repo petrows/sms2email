@@ -101,7 +101,10 @@ class MainFragment : Fragment() {
      * This function checks required perms and request them from user
      */
     private fun startupCheckPermissions() {
-        val permsToCheck = arrayOf(Manifest.permission.READ_PHONE_STATE)
+        val permsToCheck = arrayOf(
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECEIVE_SMS
+        )
         val permsToRequest = ArrayList<String>()
 
         for (perm in permsToCheck) {
@@ -121,7 +124,7 @@ class MainFragment : Fragment() {
             Log.d(TAG, "Requesting: $permsToRequest")
 
             requestPermissions(
-                arrayOf(Manifest.permission.READ_PHONE_STATE), 0
+                permsToRequest.toTypedArray(), 0
             )
         }
     }
