@@ -1,2 +1,3 @@
+include ':gmail-sender-library'
 include ':app'
 rootProject.name = "PWS sms2email"
