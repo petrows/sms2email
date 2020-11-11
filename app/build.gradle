@@ -36,6 +36,7 @@ android {
 dependencies {
 
     implementation project(":gmail-sender-library")
+    implementation fileTree(dir: '../gmail-sender-library/libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.2.0'

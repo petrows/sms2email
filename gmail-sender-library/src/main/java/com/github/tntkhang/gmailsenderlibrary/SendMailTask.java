@@ -17,7 +17,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-class SendMailTask extends AsyncTask<String, Void, String> {
+public class SendMailTask extends AsyncTask<String, Void, String> {
     private String subject;
     private String body;
     private String sender;
@@ -25,7 +25,7 @@ class SendMailTask extends AsyncTask<String, Void, String> {
     private GmailListener listener;
     private Session session;
     private String dataSourceType =  "text/plain";
-    SendMailTask(String subject, String body, String sender, String recipients, GmailListener listener, Session session) {
+    public SendMailTask(String subject, String body, String sender, String recipients, GmailListener listener, Session session) {
         this.subject = subject;
         this.body = body;
         this.sender = sender;

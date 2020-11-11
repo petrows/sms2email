@@ -42,6 +42,7 @@ public class GMailSenderAuthenticator extends Authenticator {
 
     synchronized void sendMail(String subject, String body, String sender, String recipients) {
         SendMailTask sendMailTask = new SendMailTask(subject, body, sender, recipients, listener, session);
+        // d
         sendMailTask.execute();
     }
 }
